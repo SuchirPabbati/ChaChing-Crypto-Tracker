@@ -5,16 +5,24 @@ public class CurrencyRVModel {
     private String symbol;
     private double price;
     private double percentchange;
+    private String imageurl;
 
-    public CurrencyRVModel(String name, String symbol, double price, double percentchange) {
+    public CurrencyRVModel(String name, String symbol, double price, double percentchange,String imageurl) {
         this.name = name;
         this.symbol = symbol;
         this.percentchange = percentchange;
         this.price = price;
+        this.imageurl = imageurl;
     }
 
     public String getName() {
         return name;
+    }
+    public String getImageurl() {
+        return imageurl;
+    }
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
     public void setName(String name) {

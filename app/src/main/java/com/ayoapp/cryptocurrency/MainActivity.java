@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private void getCurrencyData(){
         loadingPB.setVisibility(View.VISIBLE);
         String url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -101,12 +102,14 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0 ; i < dataArray.length(); i++) {
                         JSONObject dataObj = dataArray.getJSONObject(i);
                         String name = dataObj.getString("name");
+                        int id = dataObj.getInt("id");
+                        String imageurl = "https://s2.coinmarketcap.com/static/img/coins/64x64/"+id+".png";
                         String symbol = dataObj.getString("symbol");
                         JSONObject quote = dataObj.getJSONObject("quote");
                         JSONObject USD = quote.getJSONObject("USD");
                         double price = USD.getDouble("price");
                         double percentchange = USD.getDouble("percent_change_24h");
-                        currencyRVModelArrayList.add(new CurrencyRVModel(name,symbol,price,percentchange));
+                        currencyRVModelArrayList.add(new CurrencyRVModel(name,symbol,price,percentchange,imageurl));
                     }
                     currencyRVAdapter.notifyDataSetChanged();
 
