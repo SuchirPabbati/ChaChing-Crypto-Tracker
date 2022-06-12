@@ -1,13 +1,21 @@
 package com.ayoapp.cryptocurrency;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
@@ -18,6 +26,7 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
     private Context context;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     public boolean updown;
+    public String urls;
 
     public CurrencyRVAdapter(ArrayList<CurrencyRVModel> currencyRVModelArrayList, Context context) {
         this.currencyRVModelArrayList = currencyRVModelArrayList;
@@ -42,6 +51,7 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
     public void onBindViewHolder(@NonNull  CurrencyRVAdapter.ViewHolder holder, int position) {
         CurrencyRVModel currencyRVModel = currencyRVModelArrayList.get(position);
         holder.currencyNameTV.setText(currencyRVModel.getName());
+        holder.ids = currencyRVModel.getId();
         holder.symbolTV.setText(currencyRVModel.getSymbol());
         holder.rateTV.setText("$ " +df2.format(currencyRVModel.getPrice()));
         double per=currencyRVModel.getPercentchange();
@@ -53,7 +63,6 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
         holder.percentTV.setText(df2.format(per2)+" %");
         Glide.with(context).load(currencyRVModel.getImageurl()).into(holder.imageView);
 
-
     }
 
     @Override
@@ -64,6 +73,7 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView currencyNameTV,symbolTV,rateTV,percentTV;
         private ImageView imageView,imageView2;
+        private int ids;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             currencyNameTV = itemView.findViewById(R.id.idTVCurrencyName);
@@ -78,6 +88,19 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
             }
             percentTV = itemView.findViewById(R.id.currencyChangeTextView);
             imageView = itemView.findViewById(R.id.currencyImageView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
+                    Intent chartIntent = new Intent(context,ChartActivity.class);
+                    chartIntent.putExtra("coin_name",symbolTV.getText());
+                    chartIntent.putExtra("coin_names",currencyNameTV.getText());
+                    chartIntent.putExtra("coin_id",ids);
+                    Log.d("id",ids+"");
+                    context.startActivity(chartIntent);
+                }
+            });
         }
     }
 }

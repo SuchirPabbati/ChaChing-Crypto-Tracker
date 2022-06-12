@@ -8,6 +8,7 @@ import android.app.VoiceInteractor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 loadingPB.setVisibility(View.GONE);
                 try {
+                    Log.d("url",url);
                     JSONArray dataArray = response.getJSONArray("data");
                     for (int i = 0 ; i < dataArray.length(); i++) {
                         JSONObject dataObj = dataArray.getJSONObject(i);
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject USD = quote.getJSONObject("USD");
                         double price = USD.getDouble("price");
                         double percentchange = USD.getDouble("percent_change_24h");
-                        currencyRVModelArrayList.add(new CurrencyRVModel(name,symbol,price,percentchange,imageurl));
+                        currencyRVModelArrayList.add(new CurrencyRVModel(name,symbol,price,percentchange,imageurl,id));
                     }
                     currencyRVAdapter.notifyDataSetChanged();
 
