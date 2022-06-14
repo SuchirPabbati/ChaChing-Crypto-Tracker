@@ -1,18 +1,26 @@
 package com.ayoapp.cryptocurrency;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.VoiceInteractor;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -41,14 +49,20 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         searchEdt = findViewById(R.id.idEdtSearch);
+        getSupportActionBar().setTitle("ChaChing Crypto");
         currenciesRV = findViewById(R.id.idRVCurrencies);
         loadingPB = findViewById(R.id.idPBloading);
         currencyRVModelArrayList = new ArrayList<>();
+
+
         currencyRVAdapter = new CurrencyRVAdapter(currencyRVModelArrayList, this);
         currenciesRV.setLayoutManager(new LinearLayoutManager(this));
         currenciesRV.setAdapter(currencyRVAdapter);
@@ -73,6 +87,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_news, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_news: {
+                startActivity(new Intent(this, NewsActivity.class));
+                return true;
+            }
+            case R.id.action_favorite:{
+                startActivity(new Intent(this, FavoriteActivity.class));
+
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void filterCurrencies(String currency) {
         ArrayList<CurrencyRVModel> filteredList = new ArrayList<>();
         for (CurrencyRVModel item : currencyRVModelArrayList) {
@@ -92,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
     private void getCurrencyData(){
         loadingPB.setVisibility(View.VISIBLE);
         String url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

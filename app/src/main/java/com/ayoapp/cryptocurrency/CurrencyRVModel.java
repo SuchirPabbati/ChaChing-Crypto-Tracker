@@ -15,6 +15,7 @@ public class CurrencyRVModel {
         this.price = price;
         this.imageurl = imageurl;
         this.id = id;
+
     }
 
     public String getName() {

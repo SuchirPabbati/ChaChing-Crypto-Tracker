@@ -11,4 +11,16 @@
     <color name="black_shade_1">#292D36</color>
     <color name="black_shade_2">#272B33</color>
     <color name="black_shade_3">#021853</color>
+    <color name="colorPrimary">#1a2980</color>
+    <color name="colorPrimaryDark">#01143D</color>
+    <color name="colorAccent">#004e92</color>
+
+    <color name="green">#32CD32</color>
+    <color name="red">#D50000</color>
+    <color name="blue">#1A237E</color>
+
+
+    <color name="currencyDetailsCardBackground">#30ffffff</color>
+    <color name="currencyDetailsCardText">#f6f6fa</color>
+    <color name="currencyDetailsTextColor">#29398d</color>
 </resources>

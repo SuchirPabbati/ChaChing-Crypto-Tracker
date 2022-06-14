@@ -81,9 +81,6 @@ public class ChartActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //Log.d("imageurl",imageurl);
-
-
                 int time=0;
                 int day=0;
                 double price=0;
